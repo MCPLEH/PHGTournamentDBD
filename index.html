@@ -22,6 +22,10 @@
     <meta name="twitter:title" content="Event 1v1 - Dead by Daylight">
     <meta name="twitter:description" content="PHG | DBD Creator">
     <meta name="twitter:image" content="https://i.postimg.cc/LsmyN2Ty/target1v1.png">
+    
+    <!-- Добавляем Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         /* Основные стили */
         * {
@@ -33,6 +37,10 @@
 
         body {
             background-color: #000;
+            background-image: url('https://framerusercontent.com/images/mnSJcLrRsxC3x00UuNuqZAtE.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: #ffcc00;
             overflow-x: hidden;
             min-height: 100vh;
@@ -125,12 +133,39 @@
             letter-spacing: 2px;
             position: relative;
             overflow: hidden;
+            margin-bottom: 40px; /* Добавляем отступ снизу */
         }
 
         .start-btn:hover {
             background-color: #ffcc00;
             color: #000;
             box-shadow: 0 0 20px #ffcc00;
+        }
+
+        /* Социальные ссылки - ТОЛЬКО НА ГЛАВНОЙ СТРАНИЦЕ */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            color: #ffcc00;
+            font-size: 24px;
+            transition: all 0.3s;
+            text-decoration: none;
+            padding: 10px;
+            border: 1px solid transparent;
+            border-radius: 5px;
+        }
+
+        .social-link:hover {
+            color: #000;
+            background-color: #ffcc00;
+            border: 1px solid #ffcc00;
+            box-shadow: 0 0 15px #ffcc00;
+            transform: translateY(-3px);
         }
 
         /* Меню выбора */
@@ -145,6 +180,16 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             text-shadow: 0 0 10px #ffcc00;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            padding: 10px 20px;
+        }
+
+        .menu-title:hover {
+            color: #000;
+            background-color: #ffcc00;
+            box-shadow: 0 0 20px #ffcc00;
         }
 
         .menu-buttons {
@@ -175,6 +220,7 @@
             box-shadow: 0 0 15px #ffcc00;
         }
 
+        /* Остальные стили остаются без изменений */
         /* Страница участников */
         .participants-page, .registration-page, .info-page, .rules-page {
             padding-top: 20px;
@@ -536,7 +582,7 @@
 <body>
     <!-- Экран загрузки -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-text">ЗАГРУЗКА ТУРНИРА 1V1...</div>
+        <div class="loading-text">ЗАГРУЗКА...</div>
         <div class="loading-bar">
             <div class="loading-progress"></div>
         </div>
@@ -551,28 +597,35 @@
             <img src="https://i.postimg.cc/LsmyN2Ty/target1v1.png" alt="DBD Logo">
         </div>
         <br>
-        <h1>ТУРНИР 1V1 Царь Горы by TARGET-1v1</h1>
+        <h1 class="menu-title glitch-text" data-text="by TARGET 1v1">by TARGET 1v1</h1>
         <br>
         <br>
         <center>
             <button class="start-btn" id="startBtn">НАЧАТЬ</button>
         </center>
+        
+        <!-- Социальные ссылки - ТОЛЬКО НА ГЛАВНОЙ СТРАНИЦЕ -->
+        <div class="social-links">
+            <a href="https://discord.com/invite/YCUTMsNxff" class="social-link"><i class="fab fa-discord"></i></a>
+            <a href="https://t.me/chatdbdphg" class="social-link"><i class="fab fa-telegram"></i></a>
+            <a href="https://www.twitch.tv/target1v1" class="social-link"><i class="fab fa-twitch"></i></a>
+            <a href="https://youtube.com/@playhangames" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
     </div>
 
     <!-- Меню выбора -->
     <div class="container menu-page hidden" id="menuPage">
-        <h1 class="menu-title glitch-text" data-text="ТУРНИР 1V1 Царь Горы">ТУРНИР 1V1 Царь Горы</h1>
+        <!-- Добавляем обработчик клика на заголовок -->
+        <h1 class="menu-title glitch-text" data-text="ТУРНИР 1V1 Царь Горы" id="tournamentTitle">ТУРНИР 1V1 Царь Горы</h1>
         <div class="menu-buttons">
             <button class="menu-btn" id="participantsBtn">Зарегистрированные участники</button>
             <button class="menu-btn" id="registrationBtn">Регистрация</button>
             <button class="menu-btn" id="infoBtn">Информация о турнире</button>
             <button class="menu-btn" id="rulesBtn">Правила</button>
         </div>
-        <br>
-        <br>
-        <h1 class="menu-title glitch-text" data-text="by TARGET 1v1">by TARGET 1v1</h1>
     </div>
 
+    <!-- Остальной HTML код без изменений -->
     <!-- Страница участников -->
     <div class="container participants-page hidden" id="participantsPage">
         <button class="back-btn" id="backFromParticipants">Назад</button>
@@ -820,6 +873,7 @@
         const infoPage = document.getElementById('infoPage');
         const rulesPage = document.getElementById('rulesPage');
         const notification = document.getElementById('notification');
+        const tournamentTitle = document.getElementById('tournamentTitle');
         
         const startBtn = document.getElementById('startBtn');
         const participantsBtn = document.getElementById('participantsBtn');
@@ -839,8 +893,8 @@
         const submitRegistration = document.getElementById('submitRegistration');
         
         // Настройки Telegram бота
-        const TELEGRAM_BOT_TOKEN = '7648746510:AAECKk-hOAIMd1_eQZItO8X69lQgKNl6Eoo'; // Замените на токен вашего бота
-        const TELEGRAM_CHAT_ID = '-5010876147'; // Замените на ID чата/канала
+        const TELEGRAM_BOT_TOKEN = '7648746510:AAECKk-hOAIMd1_eQZItO8X69lQgKNl6Eoo';
+        const TELEGRAM_CHAT_ID = '-1003486777426';
 
         // Функции навигации
         function showPage(page) {
@@ -901,7 +955,6 @@
         
         // Функция для отправки данных в Telegram
         async function sendToTelegram(data) {
-            // Формируем сообщение для отправки
             const message = `
 🎮 *НОВАЯ РЕГИСТРАЦИЯ НА ТУРНИР*
 
@@ -916,7 +969,6 @@
             `;
             
             try {
-                // Отправляем запрос к API Telegram
                 const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: {
@@ -982,6 +1034,11 @@
             participantCard.style.display = 'none';
         });
         
+        // ДОБАВЛЯЕМ ОБРАБОТЧИК ДЛЯ ОБНОВЛЕНИЯ СТРАНИЦЫ
+        tournamentTitle.addEventListener('click', () => {
+            location.reload();
+        });
+        
         // Закрытие карточки при клике вне ее
         document.addEventListener('click', (e) => {
             if (e.target === participantCard) {
@@ -1027,7 +1084,7 @@
             if (result.success) {
                 showNotification(result.message, true);
                 
-                // Добавляем участника в локальный список (в реальном приложении это делается на сервере)
+                // Добавляем участника в локальный список
                 const newParticipant = {
                     id: participants.length + 1,
                     name: nickname,
