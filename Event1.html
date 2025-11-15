@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Турнирная сетка - Мультирежим</title>
+    <link rel="icon" href="https://i.postimg.cc/LsmyN2Ty/target1v1.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: #000;
+            background-image: url('https://framerusercontent.com/images/mnSJcLrRsxC3x00UuNuqZAtE.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ffcc00;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #ffcc00;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            color: #cccccc;
+        }
+
+        .mode-selector {
+            background: rgba(255, 204, 0, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+        }
+
+        .mode-selector h3 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .mode-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 15px 30px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #ffcc00;
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-btn:hover {
+            background-color: #ffcc00;
+            color: #000;
+            box-shadow: 0 0 20px #ffcc00;
+            transform: translateY(-3px);
+        }
+
+        .mode-btn.active {
+            background: #ffcc00;
+            color: #000;
+            box-shadow: 0 0 15px #ffcc00;
+        }
+
+        .mode-description {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #cccccc;
+            text-align: center;
+        }
+
+        .config-panel {
+            background: rgba(255, 204, 0, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+            display: none;
+        }
+
+        .config-panel h3 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .config-item {
+            margin-bottom: 20px;
+        }
+
+        .config-item label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffcc00;
+            display: block;
+        }
+
+        .config-item textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: inherit;
+            height: 120px;
+            resize: vertical;
+            background: #000;
+            color: #ffcc00;
+        }
+
+        .config-item textarea:focus {
+            outline: none;
+            box-shadow: 0 0 10px #ffcc00;
+        }
+
+        .config-item input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: inherit;
+            background: #000;
+            color: #ffcc00;
+        }
+
+        .config-item input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #ffcc00;
+        }
+
+        .config-item .hint {
+            color: #cccccc;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .config-item select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            font-size: 16px;
+            background: #000;
+            color: #ffcc00;
+            cursor: pointer;
+        }
+
+        .config-item select:focus {
+            outline: none;
+            box-shadow: 0 0 10px #ffcc00;
+        }
+
+        .players-preview {
+            margin-top: 15px;
+        }
+
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .player-tag {
+            background: rgba(255, 204, 0, 0.2);
+            color: #ffcc00;
+            padding: 10px 15px;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #ffcc00;
+        }
+
+        .player-tag.boss {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff3333;
+            color: #ff3333;
+            font-weight: bold;
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        .status.success {
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+            border-color: #00ff00;
+        }
+
+        .status.error {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff3333;
+            border-color: #ff3333;
+        }
+
+        .tournament-grid {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding: 30px;
+            background: rgba(255, 204, 0, 0.1);
+            border-radius: 15px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+            margin-bottom: 30px;
+            min-height: 500px;
+        }
+
+        .round {
+            min-width: 300px;
+        }
+
+        .round-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 204, 0, 0.2);
+            color: #ffcc00;
+            border-radius: 10px;
+            font-size: 1.3em;
+            border: 1px solid #ffcc00;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .match {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ffcc00;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .match::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #ffcc00;
+        }
+
+        .match:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 204, 0, 0.4);
+            border-color: #ffcc00;
+        }
+
+        .player {
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            background: rgba(255, 204, 0, 0.1);
+            color: #ffcc00;
+        }
+
+        .player.boss-player {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff3333;
+            font-weight: bold;
+            border-color: #ff3333;
+        }
+
+        .player::before {
+            content: '⚔️';
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+
+        .player.boss-player::before {
+            content: '👑';
+        }
+
+        .player:hover {
+            background-color: rgba(255, 204, 0, 0.2);
+            border-color: #ffcc00;
+            transform: scale(1.02);
+        }
+
+        .player.winner {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            font-weight: bold;
+            border-color: #00ff00;
+        }
+
+        .player.winner::before {
+            content: '🏆';
+        }
+
+        .player.loser {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff3333;
+            opacity: 0.7;
+            border-color: #ff3333;
+        }
+
+        .player.loser::before {
+            content: '💀';
+        }
+
+        .player.absent {
+            background: rgba(128, 128, 128, 0.2);
+            color: #cccccc;
+            opacity: 0.6;
+            border-color: #cccccc;
+        }
+
+        .player.absent::before {
+            content: '⏸️';
+        }
+
+        .player.bye {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+            border-color: #ffa500;
+        }
+
+        .player.bye::before {
+            content: '⭐';
+        }
+
+        .player-score {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .player-time {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .player-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            flex: 1;
+            background: rgba(255, 204, 0, 0.2);
+            color: #ffcc00;
+            border: 1px solid #ffcc00;
+        }
+
+        .action-btn.absent {
+            background: rgba(128, 128, 128, 0.2);
+            color: #cccccc;
+            border-color: #cccccc;
+        }
+
+        .action-btn.present {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            border-color: #00ff00;
+        }
+
+        .action-btn.undo {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+            border-color: #ffa500;
+        }
+
+        .action-btn.timer {
+            background: rgba(0, 191, 255, 0.2);
+            color: #00bfff;
+            border-color: #00bfff;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        .timer-input-container {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .timer-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ffcc00;
+            border-radius: 5px;
+            background: #000;
+            color: #ffcc00;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        .timer-input:focus {
+            outline: none;
+            box-shadow: 0 0 5px #ffcc00;
+        }
+
+        .timer-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: rgba(0, 191, 255, 0.2);
+            color: #00bfff;
+            font-weight: bold;
+            border: 1px solid #00bfff;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: transparent;
+            color: #ffcc00;
+            border: 2px solid #ffcc00;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: transparent;
+            color: #ffcc00;
+            border-color: #ffcc00;
+        }
+
+        .btn-success {
+            background: transparent;
+            color: #00ff00;
+            border-color: #00ff00;
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: #ff3333;
+            border-color: #ff3333;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 204, 0, 0.4);
+            background-color: #ffcc00;
+            color: #000;
+        }
+
+        .btn-success:hover {
+            background-color: #00ff00;
+            color: #000;
+        }
+
+        .btn-danger:hover {
+            background-color: #ff3333;
+            color: #000;
+        }
+
+        .btn:disabled {
+            background: #555;
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+            color: #888;
+            border-color: #888;
+        }
+
+        .btn:disabled:hover {
+            background: #555;
+            color: #888;
+        }
+
+        .champion {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            animation: pulse 2s infinite;
+            border: 2px solid #ffcc00;
+        }
+
+        .champion h2 {
+            font-size: 2.5em;
+            color: #ffcc00;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .champion .winner-name {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ffcc00;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 20px 0;
+        }
+
+        .champion-stats {
+            font-size: 1.2em;
+            color: #ffcc00;
+            margin: 10px 0;
+        }
+
+        .standings {
+            background: rgba(255, 204, 0, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+            display: none;
+        }
+
+        .standings h3 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .standings-table th,
+        .standings-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ffcc00;
+            color: #ffcc00;
+        }
+
+        .standings-table th {
+            background: rgba(255, 204, 0, 0.2);
+            color: #ffcc00;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .standings-table tr:hover {
+            background-color: rgba(255, 204, 0, 0.05);
+        }
+
+        .standings-table .position-1 {
+            background: rgba(255, 215, 0, 0.3);
+            color: #ffcc00;
+            font-weight: bold;
+        }
+
+        .standings-table .position-2 {
+            background: rgba(192, 192, 192, 0.3);
+            color: #cccccc;
+            font-weight: bold;
+        }
+
+        .standings-table .position-3 {
+            background: rgba(205, 127, 50, 0.3);
+            color: #cd7f32;
+            font-weight: bold;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .vs {
+            text-align: center;
+            color: #ffcc00;
+            font-weight: bold;
+            margin: 5px 0;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .tournament-grid {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .round {
+                min-width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                margin: 5px;
+                width: 90%;
+            }
+            
+            .standings-table {
+                font-size: 14px;
+            }
+            
+            .standings-table th,
+            .standings-table td {
+                padding: 8px 10px;
+            }
+
+            .mode-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mode-btn {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        /* Скрытая кнопка в левом нижнем углу */
+        .hidden-button {
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            background: rgba(255, 204, 0, 0.2);
+            color: #ffcc00;
+            border: 1px solid #ffcc00;
+        }
+        
+        .hidden-button:hover {
+            background-color: #ffcc00;
+            color: #000;
+        }
+
+        /* Cyber Punk эффекты */
+        .cyber-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffcc00, transparent);
+            margin: 20px 0;
+        }
+
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(42px, 9999px, 44px, 0); }
+            5% { clip: rect(12px, 9999px, 59px, 0); }
+            10% { clip: rect(48px, 9999px, 29px, 0); }
+            15% { clip: rect(42px, 9999px, 73px, 0); }
+            20% { clip: rect(63px, 9999px, 27px, 0); }
+            25% { clip: rect(34px, 9999px, 55px, 0); }
+            30% { clip: rect(86px, 9999px, 73px, 0); }
+            35% { clip: rect(20px, 9999px, 20px, 0); }
+            40% { clip: rect(26px, 9999px, 60px, 0); }
+            45% { clip: rect(25px, 9999px, 66px, 0); }
+            50% { clip: rect(57px, 9999px, 98px, 0); }
+            55% { clip: rect(5px, 9999px, 46px, 0); }
+            60% { clip: rect(82px, 9999px, 31px, 0); }
+            65% { clip: rect(54px, 9999px, 27px, 0); }
+            70% { clip: rect(28px, 9999px, 99px, 0); }
+            75% { clip: rect(45px, 9999px, 69px, 0); }
+            80% { clip: rect(23px, 9999px, 85px, 0); }
+            85% { clip: rect(54px, 9999px, 84px, 0); }
+            90% { clip: rect(45px, 9999px, 47px, 0); }
+            95% { clip: rect(37px, 9999px, 20px, 0); }
+            100% { clip: rect(4px, 9999px, 91px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            5% { clip: rect(52px, 9999px, 74px, 0); }
+            10% { clip: rect(79px, 9999px, 85px, 0); }
+            15% { clip: rect(75px, 9999px, 5px, 0); }
+            20% { clip: rect(67px, 9999px, 61px, 0); }
+            25% { clip: rect(14px, 9999px, 79px, 0); }
+            30% { clip: rect(1px, 9999px, 66px, 0); }
+            35% { clip: rect(86px, 9999px, 30px, 0); }
+            40% { clip: rect(23px, 9999px, 98px, 0); }
+            45% { clip: rect(85px, 9999px, 72px, 0); }
+            50% { clip: rect(71px, 9999px, 75px, 0); }
+            55% { clip: rect(2px, 9999px, 48px, 0); }
+            60% { clip: rect(30px, 9999px, 16px, 0); }
+            65% { clip: rect(59px, 9999px, 50px, 0); }
+            70% { clip: rect(41px, 9999px, 62px, 0); }
+            75% { clip: rect(2px, 9999px, 82px, 0); }
+            80% { clip: rect(47px, 9999px, 73px, 0); }
+            85% { clip: rect(3px, 9999px, 27px, 0); }
+            90% { clip: rect(26px, 9999px, 55px, 0); }
+            95% { clip: rect(42px, 9999px, 97px, 0); }
+            100% { clip: rect(38px, 9999px, 49px, 0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Скрытая кнопка в левом нижнем углу -->
+    <button class="hidden-button" onclick="window.location.href='index.html'" title="Вернуться на главную">
+        <i class="fas fa-home"></i>
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="glitch-text" data-text="⚔️ Поединки 1v1 ⚔️">⚔️ Поединки 1v1 ⚔️</h1>
+            <p>Да начнётся битва!</p>
+        </div>
+
+        <div class="mode-selector" id="modeSelector">
+            <h3>Выберите режим турнира</h3>
+            <div class="mode-buttons">
+                <button class="mode-btn" onclick="selectMode('classic')" id="classicMode">
+                    1v1 Классика
+                    <div class="mode-description">Одиночные матчи по выбору</div>
+                </button>
+                <button class="mode-btn" onclick="selectMode('bracket')" id="bracketMode">
+                    Турнир по Сетке
+                    <div class="mode-description">Олимпийская система с выбыванием</div>
+                </button>
+                <button class="mode-btn" onclick="selectMode('king')" id="kingMode">
+                    Царь Горы
+                    <div class="mode-description">Каждый сражается с каждым</div>
+                </button>
+                <button class="mode-btn" onclick="selectMode('timer')" id="timerMode">
+                    1v1 Таймер
+                    <div class="mode-description">Соревнование на лучшее время</div>
+                </button>
+                <button class="mode-btn" onclick="selectMode('boss')" id="bossMode">
+                    Все против Босса
+                    <div class="mode-description">Каждый игрок против одного босса</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="config-panel" id="configPanel">
+            <h3>Добавьте участников турнира</h3>
+            
+            <div class="config-item">
+                <label for="playersInput">Введите никнеймы игроков (каждый с новой строки):</label>
+                <textarea id="playersInput" placeholder="Например:
+Игрок1
+Игрок2
+Игрок3
+Воин_Света
+Темный_Рыцарь"></textarea>
+                <div class="hint" id="playersHint">Минимум 2 игрока</div>
+            </div>
+
+            <!-- Поле для ввода ника босса для режима "Все против Босса" -->
+            <div class="config-item" id="bossInputContainer" style="display: none;">
+                <label for="bossInput">Введите ник Босса:</label>
+                <input type="text" id="bossInput" placeholder="Например: Главный_Босс">
+                <div class="hint">Босс будет сражаться против всех остальных игроков</div>
+            </div>
+
+            <div class="players-preview" id="playersPreview" style="display: none;">
+                <label>Будут добавлены игроки:</label>
+                <div class="players-grid" id="playersList">
+                    <!-- Список игроков будет здесь -->
+                </div>
+            </div>
+
+            <div class="status" id="statusMessage"></div>
+
+            <div class="controls">
+                <button class="btn btn-primary" onclick="validateAndStart()">Начать турнир</button>
+            </div>
+        </div>
+
+        <div class="standings" id="standingsSection">
+            <h3>🏆 ТАБЛИЦА ЛИДЕРОВ</h3>
+            <table class="standings-table" id="standingsTable">
+                <thead>
+                    <tr>
+                        <th>Место</th>
+                        <th>Игрок</th>
+                        <th>Победы</th>
+                        <th>Поражения</th>
+                        <th>Лучшее время</th>
+                        <th>Очки</th>
+                    </tr>
+                </thead>
+                <tbody id="standingsBody">
+                    <!-- Таблица лидеров будет здесь -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tournamentContainer" class="tournament-grid">
+            <!-- Турнирная сетка будет генерироваться здесь -->
+        </div>
+
+        <div id="championContainer">
+            <!-- Победитель будет отображаться здесь -->
+        </div>
+
+        <div class="controls" id="tournamentControls">
+            <button class="btn btn-success" onclick="nextRound()" id="nextRoundBtn">Следующий раунд</button>
+            <button class="btn btn-danger" onclick="resetTournament()">Новый турнир</button>
+        </div>
+    </div>
+
+    <!-- JavaScript код остается без изменений -->
+    <script>
+        // ... (весь JavaScript код из оригинального Event1.html остается без изменений)
+        // Здесь должен быть весь JavaScript код из оригинального файла Event1.html
+        // Я не менял функциональность, только стили
+        
+        let players = [];
+        let currentRound = 0;
+        let tournamentData = [];
+        let roundRobinMatches = [];
+        let currentMatchIndex = 0;
+        let playerStats = {};
+        let selectedMode = '';
+        let absentPlayers = new Set();
+        let playersWithoutOpponents = new Set();
+        let bossPlayer = '';
+
+        // Загрузка данных из localStorage при загрузке страницы
+        window.addEventListener('load', function() {
+            loadTournamentState();
+        });
+
+        // Сохранение состояния турнира в localStorage
+        function saveTournamentState() {
+            const state = {
+                players,
+                currentRound,
+                tournamentData,
+                roundRobinMatches,
+                currentMatchIndex,
+                playerStats,
+                selectedMode,
+                absentPlayers: Array.from(absentPlayers),
+                playersWithoutOpponents: Array.from(playersWithoutOpponents),
+                bossPlayer
+            };
+            localStorage.setItem('tournamentState', JSON.stringify(state));
+        }
+
+        // Загрузка состояния турнира из localStorage
+        function loadTournamentState() {
+            const savedState = localStorage.getItem('tournamentState');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                
+                players = state.players || [];
+                currentRound = state.currentRound || 0;
+                tournamentData = state.tournamentData || [];
+                roundRobinMatches = state.roundRobinMatches || [];
+                currentMatchIndex = state.currentMatchIndex || 0;
+                playerStats = state.playerStats || {};
+                selectedMode = state.selectedMode || '';
+                absentPlayers = new Set(state.absentPlayers || []);
+                playersWithoutOpponents = new Set(state.playersWithoutOpponents || []);
+                bossPlayer = state.bossPlayer || '';
+                
+                if (selectedMode) {
+                    document.getElementById('modeSelector').style.display = 'none';
+                    document.getElementById('configPanel').style.display = 'block';
+                    
+                    if (players.length > 0) {
+                        document.getElementById('configPanel').style.display = 'none';
+                        document.getElementById('tournamentContainer').style.display = 'flex';
+                        document.getElementById('tournamentControls').style.display = 'block';
+                        document.getElementById('standingsSection').style.display = 'block';
+                        
+                        renderTournament();
+                        updateStandings();
+                        
+                        const currentRoundMatches = tournamentData[currentRound] || [];
+                        const allMatchesCompleted = currentRoundMatches.every(match => match.winner);
+                        document.getElementById('nextRoundBtn').disabled = !allMatchesCompleted;
+                    }
+                }
+            }
+        }
+
+        // Выбор режима турнира
+        function selectMode(mode) {
+            selectedMode = mode;
+            
+            // Сброс активных кнопок
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Активация выбранной кнопки
+            document.getElementById(mode + 'Mode').classList.add('active');
+            
+            // Обновление подсказки в зависимости от режима
+            const hint = document.getElementById('playersHint');
+            const bossInputContainer = document.getElementById('bossInputContainer');
+            
+            if (mode === 'classic') {
+                hint.textContent = 'Минимум 2 игрока. Одиночные матчи по выбору.';
+                bossInputContainer.style.display = 'none';
+            } else if (mode === 'bracket') {
+                hint.textContent = 'Количество игроков должно быть степенью двойки (2, 4, 8, 16...). Олимпийская система.';
+                bossInputContainer.style.display = 'none';
+            } else if (mode === 'king') {
+                hint.textContent = 'Минимум 2 игрока. Каждый игрок сразится с каждым!';
+                bossInputContainer.style.display = 'none';
+            } else if (mode === 'timer') {
+                hint.textContent = 'Минимум 2 игрока. Соревнование на лучшее время!';
+                bossInputContainer.style.display = 'none';
+            } else if (mode === 'boss') {
+                hint.textContent = 'Минимум 2 игрока. Все игроки сразятся против одного босса!';
+                bossInputContainer.style.display = 'block';
+            }
+            
+            // Показ панели конфигурации
+            document.getElementById('modeSelector').style.display = 'none';
+            document.getElementById('configPanel').style.display = 'block';
+            
+            saveTournamentState();
+        }
+
+        // Валидация и начало турнира
+        function validateAndStart() {
+            const input = document.getElementById('playersInput').value.trim();
+            const statusMessage = document.getElementById('statusMessage');
+            
+            if (!input) {
+                showStatus('Введите никнеймы игроков', 'error');
+                return;
+            }
+
+            players = input.split('\n')
+                .map(name => name.trim())
+                .filter(name => name.length > 0);
+
+            if (players.length < 2) {
+                showStatus('Нужно как минимум 2 игрока', 'error');
+                return;
+            }
+
+            // Проверка для режима сетки (количество игроков должно быть степенью двойки)
+            if (selectedMode === 'bracket') {
+                if (!isPowerOfTwo(players.length)) {
+                    showStatus('Для турнира по сетке количество игроков должно быть степенью двойки (2, 4, 8, 16...)', 'error');
+                    return;
+                }
+            }
+
+            // Проверка для режима "Все против Босса"
+            if (selectedMode === 'boss') {
+                const bossInput = document.getElementById('bossInput').value.trim();
+                
+                if (!bossInput) {
+                    showStatus('Введите ник Босса', 'error');
+                    return;
+                }
+                
+                bossPlayer = bossInput;
+                
+                // Проверяем, чтобы босс не совпадал с одним из игроков
+                if (players.includes(bossPlayer)) {
+                    showStatus('Босс не может быть одним из игроков', 'error');
+                    return;
+                }
+                
+                startBossTournament();
+                return;
+            }
+
+            // Проверяем уникальность имен
+            const uniquePlayers = [...new Set(players)];
+            if (uniquePlayers.length !== players.length) {
+                showStatus('Обнаружены повторяющиеся имена игроков', 'error');
+                return;
+            }
+
+            showStatus(`Успешно добавлено ${players.length} игроков!`, 'success');
+            
+            // Запуск турнира в зависимости от выбранного режима
+            if (selectedMode === 'king') {
+                startRoundRobin();
+            } else if (selectedMode === 'bracket') {
+                startBracketTournament();
+            } else if (selectedMode === 'classic') {
+                startClassicTournament();
+            } else if (selectedMode === 'timer') {
+                startTimerTournament();
+            }
+            
+            saveTournamentState();
+        }
+
+        // Проверка, является ли число степенью двойки
+        function isPowerOfTwo(n) {
+            return n > 0 && (n & (n - 1)) === 0;
+        }
+
+        // Показать статус
+        function showStatus(message, type) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = message;
+            statusElement.className = 'status ' + type;
+            statusElement.style.display = 'block';
+        }
+
+        // Начало турнира по системе "каждый с каждым"
+        function startRoundRobin() {
+            // Инициализируем статистику игроков
+            playerStats = {};
+            players.forEach(player => {
+                playerStats[player] = {
+                    wins: 0,
+                    losses: 0,
+                    points: 0
+                };
+            });
+
+            tournamentData = [];
+            currentRound = 0;
+            currentMatchIndex = 0;
+            absentPlayers.clear();
+            playersWithoutOpponents.clear();
+            
+            // Создаем все возможные пары для системы "каждый с каждым"
+            roundRobinMatches = [];
+            for (let i = 0; i < players.length; i++) {
+                for (let j = i + 1; j < players.length; j++) {
+                    roundRobinMatches.push({
+                        player1: players[i],
+                        player2: players[j],
+                        winner: null,
+                        played: false
+                    });
+                }
+            }
+
+            // Перемешиваем матчи для случайного порядка
+            roundRobinMatches = shuffleArray(roundRobinMatches);
+
+            // Создаем первый раунд
+            createRoundFromMatches();
+            
+            // Показываем интерфейс турнира
+            document.getElementById('configPanel').style.display = 'none';
+            document.getElementById('tournamentContainer').style.display = 'flex';
+            document.getElementById('tournamentControls').style.display = 'block';
+            document.getElementById('standingsSection').style.display = 'block';
+            
+            renderTournament();
+            updateStandings();
+            document.getElementById('nextRoundBtn').disabled = true;
+            
+            saveTournamentState();
+        }
+
+        // Начало турнира по олимпийской системе
+        function startBracketTournament() {
+            // Инициализируем статистику игроков
+            playerStats = {};
+            players.forEach(player => {
+                playerStats[player] = {
+                    wins: 0,
+                    losses: 0,
+                    points: 0
+                };
+            });
+
+            tournamentData = [];
+            currentRound = 0;
+            absentPlayers.clear();
+            playersWithoutOpponents.clear();
+            
+            // Перемешиваем игроков для случайного распределения
+            const shuffledPlayers = shuffleArray([...players]);
+            
+            // Создаем первый раунд
+            const firstRound = [];
+            for (let i = 0; i < shuffledPlayers.length; i += 2) {
+                firstRound.push({
+                    player1: shuffledPlayers[i],
+                    player2: shuffledPlayers[i + 1],
+                    winner: null,
+                    played: false
+                });
+            }
+            
+            tournamentData.push(firstRound);
+            
+            // Показываем интерфейс турнира
+            document.getElementById('configPanel').style.display = 'none';
+            document.getElementById('tournamentContainer').style.display = 'flex';
+            document.getElementById('tournamentControls').style.display = 'block';
+            document.getElementById('standingsSection').style.display = 'block';
+            
+            renderTournament();
+            updateStandings();
+            document.getElementById('nextRoundBtn').disabled = true;
+            
+            saveTournamentState();
+        }
+
+        // Начало классического турнира (одиночные матчи)
+        function startClassicTournament() {
+            // Инициализируем статистику игроков
+            playerStats = {};
+            players.forEach(player => {
+                playerStats[player] = {
+                    wins: 0,
+                    losses: 0,
+                    points: 0
+                };
+            });
+
+            tournamentData = [];
+            currentRound = 0;
+            absentPlayers.clear();
+            playersWithoutOpponents.clear();
+            
+            // Создаем первый раунд со всеми возможными парами
+            const firstRound = createRoundWithByePlayers([...players]);
+            tournamentData.push(firstRound);
+            
+            // Показываем интерфейс турнира
+            document.getElementById('configPanel').style.display = 'none';
+            document.getElementById('tournamentContainer').style.display = 'flex';
+            document.getElementById('tournamentControls').style.display = 'block';
+            document.getElementById('standingsSection').style.display = 'block';
+            
+            renderTournament();
+            updateStandings();
+            document.getElementById('nextRoundBtn').disabled = true;
+            
+            saveTournamentState();
+        }
+
+        // Начало турнира с таймером
+        function startTimerTournament() {
+            // Инициализируем статистику игроков
+            playerStats = {};
+            players.forEach(player => {
+                playerStats[player] = {
+                    wins: 0,
+                    losses: 0,
+                    points: 0,
+                    bestTime: null,
+                    times: []
+                };
+            });
+
+            tournamentData = [];
+            currentRound = 0;
+            absentPlayers.clear();
+            playersWithoutOpponents.clear();
+            
+            // Создаем первый раунд со всеми возможными парами
+            const firstRound = createRoundWithByePlayers([...players]);
+            tournamentData.push(firstRound);
+            
+            // Показываем интерфейс турнира
+            document.getElementById('configPanel').style.display = 'none';
+            document.getElementById('tournamentContainer').style.display = 'flex';
+            document.getElementById('tournamentControls').style.display = 'block';
+            document.getElementById('standingsSection').style.display = 'block';
+            
+            renderTournament();
+            updateStandings();
+            document.getElementById('nextRoundBtn').disabled = true;
+            
+            saveTournamentState();
+        }
+
+        // Начало турнира "Все против Босса"
+        function startBossTournament() {
+            if (!bossPlayer) {
+                showStatus('Введите ник Босса', 'error');
+                return;
+            }
+
+            // Инициализируем статистику игроков
+            playerStats = {};
+            players.forEach(player => {
+                playerStats[player] = {
+                    wins: 0,
+                    losses: 0,
+                    points: 0,
+                    bestTime: null,
+                    times: []
+                };
+            });
+            
+            // Добавляем статистику для босса
+            playerStats[bossPlayer] = {
+                wins: 0,
+                losses: 0,
+                points: 0,
+                bestTime: null,
+                times: []
+            };
+
+            tournamentData = [];
+            currentRound = 0;
+            absentPlayers.clear();
+            playersWithoutOpponents.clear();
+            
+            // Создаем матчи: каждый игрок против босса
+            const bossMatches = [];
+            players.forEach(player => {
+                bossMatches.push({
+                    player1: player,
+                    player2: bossPlayer,
+                    winner: null,
+                    played: false
+                });
+            });
+            
+            tournamentData.push(bossMatches);
+            
+            // Показываем интерфейс турнира
+            document.getElementById('configPanel').style.display = 'none';
+            document.getElementById('tournamentContainer').style.display = 'flex';
+            document.getElementById('tournamentControls').style.display = 'block';
+            document.getElementById('standingsSection').style.display = 'block';
+            
+            renderTournament();
+            updateStandings();
+            document.getElementById('nextRoundBtn').disabled = true;
+            
+            saveTournamentState();
+        }
+
+        // Создание раунда из списка матчей
+        function createRoundFromMatches() {
+            const roundMatches = [];
+            const usedPlayers = new Set();
+            
+            // Создаем матчи для текущего раунд
+            for (let i = currentMatchIndex; i < roundRobinMatches.length; i++) {
+                const match = roundRobinMatches[i];
+                
+                // Проверяем, не участвуют ли игроки уже в этом раунде
+                if (!usedPlayers.has(match.player1) && !usedPlayers.has(match.player2)) {
+                    roundMatches.push({
+                        player1: match.player1,
+                        player2: match.player2,
+                        winner: null,
+                        played: false
+                    });
+                    
+                    usedPlayers.add(match.player1);
+                    usedPlayers.add(match.player2);
+                    
+                    currentMatchIndex = i + 1;
+                }
+                
+                // Если все игроки заняты или достигнут конец списка, выходим
+                if (usedPlayers.size === players.length || i === roundRobinMatches.length - 1) {
+                    break;
+                }
+            }
+            
+            // Добавляем раунд в турнирные данные
+            if (roundMatches.length > 0) {
+                tournamentData.push(roundMatches);
+            }
+        }
+
+        // Создание раунда с учетом игроков без оппонентов
+        function createRoundWithByePlayers(availablePlayers) {
+            const matches = [];
+            const shuffledPlayers = shuffleArray(availablePlayers);
+            
+            // Создаем пары для матчей
+            for (let i = 0; i < shuffledPlayers.length; i += 2) {
+                if (i + 1 < shuffledPlayers.length) {
+                    matches.push({
+                        player1: shuffledPlayers[i],
+                        player2: shuffledPlayers[i + 1],
+                        winner: null,
+                        played: false
+                    });
+                } else {
+                    // Если остался один игрок без пары, он проходит автоматически
+                    playersWithoutOpponents.add(shuffledPlayers[i]);
+                }
+            }
+            
+            return matches;
+        }
+
+        // Перемешивание массива
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Отрисовка турнира
+        function renderTournament() {
+            const container = document.getElementById('tournamentContainer');
+            container.innerHTML = '';
+            
+            // Очищаем контейнер победителя
+            document.getElementById('championContainer').innerHTML = '';
+            
+            // Проверяем, завершен ли турнир
+            if (selectedMode === 'bracket' && tournamentData.length > 0) {
+                const lastRound = tournamentData[tournamentData.length - 1];
+                if (lastRound.length === 1 && lastRound[0].winner) {
+                    showChampion(lastRound[0].winner);
+                    return;
+                }
+            }
+            
+            // Для режима "каждый с каждым" показываем только текущий раунд
+            if (selectedMode === 'king') {
+                if (currentRound < tournamentData.length) {
+                    renderRound(tournamentData[currentRound], `Раунд ${currentRound + 1}`);
+                } else {
+                    // Все матчи сыграны, показываем победителя
+                    determineRoundRobinWinner();
+                }
+            } 
+            // Для режима "Все против Босса" показываем все матчи
+            else if (selectedMode === 'boss') {
+                if (currentRound < tournamentData.length) {
+                    renderBossRound(tournamentData[currentRound], `Все против Босса`);
+                }
+            }
+            // Для остальных режимов показываем все раунды
+            else {
+                for (let i = 0; i < tournamentData.length; i++) {
+                    renderRound(tournamentData[i], `Раунд ${i + 1}`, i);
+                }
+            }
+            
+            saveTournamentState();
+        }
+
+        // Отрисовка раунда для режима "Все против Босса"
+        function renderBossRound(matches, roundTitle) {
+            const container = document.getElementById('tournamentContainer');
+            
+            const roundDiv = document.createElement('div');
+            roundDiv.className = 'round';
+            
+            const roundTitleDiv = document.createElement('div');
+            roundTitleDiv.className = 'round-title';
+            roundTitleDiv.textContent = roundTitle;
+            roundDiv.appendChild(roundTitleDiv);
+            
+            matches.forEach((match, index) => {
+                const matchDiv = document.createElement('div');
+                matchDiv.className = 'match';
+                
+                // Определяем, кто из игроков является боссом
+                const isPlayer1Boss = match.player1 === bossPlayer;
+                const isPlayer2Boss = match.player2 === bossPlayer;
+                
+                const player1Div = document.createElement('div');
+                player1Div.className = `player ${isPlayer1Boss ? 'boss-player' : ''} ${match.winner === match.player1 ? 'winner' : ''} ${match.winner && match.winner !== match.player1 ? 'loser' : ''} ${absentPlayers.has(match.player1) ? 'absent' : ''}`;
+                player1Div.innerHTML = `
+                    ${match.player1}
+                    ${match.played && match.player1Time ? `<span class="player-time">${match.player1Time}</span>` : ''}
+                `;
+                player1Div.onclick = () => selectWinner(match, match.player1, currentRound, index);
+                
+                const player2Div = document.createElement('div');
+                player2Div.className = `player ${isPlayer2Boss ? 'boss-player' : ''} ${match.winner === match.player2 ? 'winner' : ''} ${match.winner && match.winner !== match.player2 ? 'loser' : ''} ${absentPlayers.has(match.player2) ? 'absent' : ''}`;
+                player2Div.innerHTML = `
+                    ${match.player2}
+                    ${match.played && match.player2Time ? `<span class="player-time">${match.player2Time}</span>` : ''}
+                `;
+                player2Div.onclick = () => selectWinner(match, match.player2, currentRound, index);
+                
+                const vsDiv = document.createElement('div');
+                vsDiv.className = 'vs';
+                vsDiv.textContent = 'VS';
+                
+                matchDiv.appendChild(player1Div);
+                matchDiv.appendChild(vsDiv);
+                matchDiv.appendChild(player2Div);
+                
+                // Добавляем кнопки действий
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'player-actions';
+                
+                // Кнопка для отметки отсутствия игрока 1
+                const absent1Btn = document.createElement('button');
+                absent1Btn.className = `action-btn ${absentPlayers.has(match.player1) ? 'present' : 'absent'}`;
+                absent1Btn.textContent = absentPlayers.has(match.player1) ? `${match.player1} вернулся` : `${match.player1} отсутствует`;
+                absent1Btn.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleAbsentPlayer(match.player1);
+                };
+                
+                // Кнопка для отметки отсутствия игрока 2
+                const absent2Btn = document.createElement('button');
+                absent2Btn.className = `action-btn ${absentPlayers.has(match.player2) ? 'present' : 'absent'}`;
+                absent2Btn.textContent = absentPlayers.has(match.player2) ? `${match.player2} вернулся` : `${match.player2} отсутствует`;
+                absent2Btn.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleAbsentPlayer(match.player2);
+                };
+                
+                // Кнопка отмены результата матча
+                const undoBtn = document.createElement('button');
+                undoBtn.className = 'action-btn undo';
+                undoBtn.textContent = 'Отменить результат';
+                undoBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    undoMatch(match, currentRound, index);
+                };
+                
+                // Добавляем кнопки только если матч еще не сыгран
+                if (!match.played) {
+                    actionsDiv.appendChild(absent1Btn);
+                    actionsDiv.appendChild(absent2Btn);
+                } else {
+                    actionsDiv.appendChild(undoBtn);
+                }
+                
+                // Для режима с таймером добавляем поле ввода времени
+                if (selectedMode === 'timer' || selectedMode === 'boss') {
+                    const timerDiv = document.createElement('div');
+                    timerDiv.className = 'timer-input-container';
+                    
+                    const timerInput = document.createElement('input');
+                    timerInput.type = 'text';
+                    timerInput.className = 'timer-input';
+                    timerInput.placeholder = 'мм:сс (например: 02:30)';
+                    timerInput.pattern = '[0-9]{2}:[0-9]{2}';
+                    
+                    const timerBtn = document.createElement('button');
+                    timerBtn.className = 'action-btn timer';
+                    timerBtn.textContent = 'Установить время';
+                    timerBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        const time = timerInput.value.trim();
+                        if (isValidTimeFormat(time)) {
+                            setMatchTime(match, time, currentRound, index);
+                            timerInput.value = '';
+                        } else {
+                            alert('Введите время в формате мм:сс (например: 02:30)');
+                        }
+                    };
+                    
+                    timerDiv.appendChild(timerInput);
+                    timerDiv.appendChild(timerBtn);
+                    matchDiv.appendChild(timerDiv);
+                }
+                
+                matchDiv.appendChild(actionsDiv);
+                roundDiv.appendChild(matchDiv);
+            });
+            
+            container.appendChild(roundDiv);
+        }
+
+        // Отрисовка обычного раунда
+        function renderRound(matches, roundTitle, roundIndex) {
+            const container = document.getElementById('tournamentContainer');
+            
+            const roundDiv = document.createElement('div');
+            roundDiv.className = 'round';
+            
+            const roundTitleDiv = document.createElement('div');
+            roundTitleDiv.className = 'round-title';
+            roundTitleDiv.textContent = roundTitle;
+            roundDiv.appendChild(roundTitleDiv);
+            
+            matches.forEach((match, index) => {
+                const matchDiv = document.createElement('div');
+                matchDiv.className = 'match';
+                
+                const player1Div = document.createElement('div');
+                player1Div.className = `player ${match.winner === match.player1 ? 'winner' : ''} ${match.winner && match.winner !== match.player1 ? 'loser' : ''} ${absentPlayers.has(match.player1) ? 'absent' : ''}`;
+                player1Div.innerHTML = `
+                    ${match.player1}
+                    ${match.played && match.player1Time ? `<span class="player-time">${match.player1Time}</span>` : ''}
+                `;
+                player1Div.onclick = () => selectWinner(match, match.player1, roundIndex, index);
+                
+                const player2Div = document.createElement('div');
+                player2Div.className = `player ${match.winner === match.player2 ? 'winner' : ''} ${match.winner && match.winner !== match.player2 ? 'loser' : ''} ${absentPlayers.has(match.player2) ? 'absent' : ''}`;
+                player2Div.innerHTML = `
+                    ${match.player2}
+                    ${match.played && match.player2Time ? `<span class="player-time">${match.player2Time}</span>` : ''}
+                `;
+                player2Div.onclick = () => selectWinner(match, match.player2, roundIndex, index);
+                
+                const vsDiv = document.createElement('div');
+                vsDiv.className = 'vs';
+                vsDiv.textContent = 'VS';
+                
+                matchDiv.appendChild(player1Div);
+                matchDiv.appendChild(vsDiv);
+                matchDiv.appendChild(player2Div);
+                
+                // Добавляем кнопки действий
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'player-actions';
+                
+                // Кнопка для отметки отсутствия игрока 1
+                const absent1Btn = document.createElement('button');
+                absent1Btn.className = `action-btn ${absentPlayers.has(match.player1) ? 'present' : 'absent'}`;
+                absent1Btn.textContent = absentPlayers.has(match.player1) ? `${match.player1} вернулся` : `${match.player1} отсутствует`;
+                absent1Btn.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleAbsentPlayer(match.player1);
+                };
+                
+                // Кнопка для отметки отсутствия игрока 2
+                const absent2Btn = document.createElement('button');
+                absent2Btn.className = `action-btn ${absentPlayers.has(match.player2) ? 'present' : 'absent'}`;
+                absent2Btn.textContent = absentPlayers.has(match.player2) ? `${match.player2} вернулся` : `${match.player2} отсутствует`;
+                absent2Btn.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleAbsentPlayer(match.player2);
+                };
+                
+                // Кнопка отмены результата матча
+                const undoBtn = document.createElement('button');
+                undoBtn.className = 'action-btn undo';
+                undoBtn.textContent = 'Отменить результат';
+                undoBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    undoMatch(match, roundIndex, index);
+                };
+                
+                // Добавляем кнопки только если матч еще не сыгран
+                if (!match.played) {
+                    actionsDiv.appendChild(absent1Btn);
+                    actionsDiv.appendChild(absent2Btn);
+                } else {
+                    actionsDiv.appendChild(undoBtn);
+                }
+                
+                // Для режима с таймером добавляем поле ввода времени
+                if (selectedMode === 'timer' || selectedMode === 'boss') {
+                    const timerDiv = document.createElement('div');
+                    timerDiv.className = 'timer-input-container';
+                    
+                    const timerInput = document.createElement('input');
+                    timerInput.type = 'text';
+                    timerInput.className = 'timer-input';
+                    timerInput.placeholder = 'мм:сс (например: 02:30)';
+                    timerInput.pattern = '[0-9]{2}:[0-9]{2}';
+                    
+                    const timerBtn = document.createElement('button');
+                    timerBtn.className = 'action-btn timer';
+                    timerBtn.textContent = 'Установить время';
+                    timerBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        const time = timerInput.value.trim();
+                        if (isValidTimeFormat(time)) {
+                            setMatchTime(match, time, roundIndex, index);
+                            timerInput.value = '';
+                        } else {
+                            alert('Введите время в формате мм:сс (например: 02:30)');
+                        }
+                    };
+                    
+                    timerDiv.appendChild(timerInput);
+                    timerDiv.appendChild(timerBtn);
+                    matchDiv.appendChild(timerDiv);
+                }
+                
+                matchDiv.appendChild(actionsDiv);
+                roundDiv.appendChild(matchDiv);
+            });
+            
+            // Показываем игроков без оппонентов в этом раунде
+            if (playersWithoutOpponents.size > 0 && roundIndex === currentRound) {
+                const byeDiv = document.createElement('div');
+                byeDiv.className = 'match';
+                byeDiv.innerHTML = '<div class="round-title">Автоматически проходят:</div>';
+                
+                playersWithoutOpponents.forEach(player => {
+                    const playerDiv = document.createElement('div');
+                    playerDiv.className = 'player bye';
+                    playerDiv.textContent = player;
+                    byeDiv.appendChild(playerDiv);
+                });
+                
+                roundDiv.appendChild(byeDiv);
+            }
+            
+            container.appendChild(roundDiv);
+        }
+
+        // Проверка формата времени
+        function isValidTimeFormat(time) {
+            const timeRegex = /^[0-9]{2}:[0-9]{2}$/;
+            if (!timeRegex.test(time)) return false;
+            
+            const [minutes, seconds] = time.split(':').map(Number);
+            return minutes >= 0 && minutes < 60 && seconds >= 0 && seconds < 60;
+        }
+
+        // Установка времени для матча
+        function setMatchTime(match, time, roundIndex, matchIndex) {
+            if (!match.played) {
+                alert('Сначала определите победителя матча!');
+                return;
+            }
+            
+            // Определяем, какое время для какого игрока устанавливать
+            if (match.winner === match.player1) {
+                match.player1Time = time;
+                match.player2Time = null;
+            } else if (match.winner === match.player2) {
+                match.player2Time = time;
+                match.player1Time = null;
+            }
+            
+            // Обновляем статистику игроков
+            if (selectedMode === 'timer' || selectedMode === 'boss') {
+                updatePlayerTimeStats(match.winner, time);
+            }
+            
+            renderTournament();
+            updateStandings();
+            saveTournamentState();
+        }
+
+        // Обновление статистики времени игрока
+        function updatePlayerTimeStats(player, time) {
+            if (!playerStats[player]) return;
+            
+            const timeInSeconds = convertTimeToSeconds(time);
+            playerStats[player].times.push(timeInSeconds);
+            
+            // Обновляем лучшее время
+            if (playerStats[player].bestTime === null || timeInSeconds < playerStats[player].bestTime) {
+                playerStats[player].bestTime = timeInSeconds;
+            }
+        }
+
+        // Конвертация времени в секунды
+        function convertTimeToSeconds(time) {
+            const [minutes, seconds] = time.split(':').map(Number);
+            return minutes * 60 + seconds;
+        }
+
+        // Конвертация секунд в формат мм:сс
+        function convertSecondsToTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Выбор победителя
+        function selectWinner(match, winner, roundIndex, matchIndex) {
+            if (match.played) return;
+            
+            // Проверяем, не отсутствует ли выбранный победитель
+            if (absentPlayers.has(winner)) {
+                alert('Этот игрок отсутствует! Сначала отметьте его присутствующим.');
+                return;
+            }
+            
+            // Проверяем, не отсутствует ли противник
+            const opponent = winner === match.player1 ? match.player2 : match.player1;
+            if (absentPlayers.has(opponent)) {
+                // Если противник отсутствует, автоматически присуждаем победу
+                match.winner = winner;
+                match.played = true;
+                
+                // Обновляем статистику
+                playerStats[winner].wins++;
+                playerStats[opponent].losses++;
+                playerStats[winner].points += 3;
+                
+                renderTournament();
+                updateStandings();
+                checkRoundCompletion();
+                saveTournamentState();
+                return;
+            }
+            
+            // Обычный выбор победителя
+            match.winner = winner;
+            match.played = true;
+            
+            // Обновляем статистику
+            playerStats[winner].wins++;
+            playerStats[opponent].losses++;
+            playerStats[winner].points += 3;
+            
+            renderTournament();
+            updateStandings();
+            checkRoundCompletion();
+            saveTournamentState();
+        }
+
+        // Отмена результата матча
+        function undoMatch(match, roundIndex, matchIndex) {
+            if (!match.played) return;
+            
+            const winner = match.winner;
+            const loser = winner === match.player1 ? match.player2 : match.player1;
+            
+            // Сбрасываем матч
+            match.winner = null;
+            match.played = false;
+            match.player1Time = null;
+            match.player2Time = null;
+            
+            // Обновляем статистику
+            playerStats[winner].wins--;
+            playerStats[loser].losses--;
+            playerStats[winner].points -= 3;
+            
+            // Удаляем время из статистики, если оно было
+            if (selectedMode === 'timer' || selectedMode === 'boss') {
+                if (match.player1Time) {
+                    const timeInSeconds = convertTimeToSeconds(match.player1Time);
+                    const timeIndex = playerStats[winner].times.indexOf(timeInSeconds);
+                    if (timeIndex > -1) {
+                        playerStats[winner].times.splice(timeIndex, 1);
+                    }
+                    
+                    // Пересчитываем лучшее время
+                    if (playerStats[winner].times.length === 0) {
+                        playerStats[winner].bestTime = null;
+                    } else {
+                        playerStats[winner].bestTime = Math.min(...playerStats[winner].times);
+                    }
+                }
+                
+                if (match.player2Time) {
+                    const timeInSeconds = convertTimeToSeconds(match.player2Time);
+                    const timeIndex = playerStats[winner].times.indexOf(timeInSeconds);
+                    if (timeIndex > -1) {
+                        playerStats[winner].times.splice(timeIndex, 1);
+                    }
+                    
+                    // Пересчитываем лучшее время
+                    if (playerStats[winner].times.length === 0) {
+                        playerStats[winner].bestTime = null;
+                    } else {
+                        playerStats[winner].bestTime = Math.min(...playerStats[winner].times);
+                    }
+                }
+            }
+            
+            renderTournament();
+            updateStandings();
+            document.getElementById('nextRoundBtn').disabled = true;
+            saveTournamentState();
+        }
+
+        // Переключение статуса отсутствия игрока
+        function toggleAbsentPlayer(player) {
+            if (absentPlayers.has(player)) {
+                absentPlayers.delete(player);
+            } else {
+                absentPlayers.add(player);
+            }
+            
+            renderTournament();
+            saveTournamentState();
+        }
+
+        // Проверка завершения раунда
+        function checkRoundCompletion() {
+            const currentRoundMatches = tournamentData[currentRound];
+            const allMatchesCompleted = currentRoundMatches.every(match => match.played);
+            
+            document.getElementById('nextRoundBtn').disabled = !allMatchesCompleted;
+            saveTournamentState();
+        }
+
+        // Следующий раунд
+        function nextRound() {
+            const currentRoundMatches = tournamentData[currentRound];
+            const allMatchesCompleted = currentRoundMatches.every(match => match.played);
+            
+            if (!allMatchesCompleted) {
+                alert('Не все матчи текущего раунда завершены!');
+                return;
+            }
+            
+            // Для режима "каждый с каждым" создаем следующий раунд из оставшихся матчей
+            if (selectedMode === 'king') {
+                if (currentMatchIndex < roundRobinMatches.length) {
+                    currentRound++;
+                    createRoundFromMatches();
+                } else {
+                    // Все матчи сыграны
+                    determineRoundRobinWinner();
+                    return;
+                }
+            }
+            // Для режима сетки создаем следующий раунд
+            else if (selectedMode === 'bracket') {
+                const winners = [];
+                
+                // Собираем победителей текущего раунда
+                currentRoundMatches.forEach(match => {
+                    if (match.winner) {
+                        winners.push(match.winner);
+                    }
+                });
+                
+                // Добавляем игроков без оппонентов
+                playersWithoutOpponents.forEach(player => {
+                    winners.push(player);
+                });
+                playersWithoutOpponents.clear();
+                
+                // Если остался только один победитель - турнир завершен
+                if (winners.length === 1) {
+                    showChampion(winners[0]);
+                    return;
+                }
+                
+                // Создаем следующий раунд
+                currentRound++;
+                const nextRoundMatches = createRoundWithByePlayers(winners);
+                tournamentData.push(nextRoundMatches);
+            }
+            // Для классического режима и режима с таймером просто создаем новый раунд
+            else if (selectedMode === 'classic' || selectedMode === 'timer' || selectedMode === 'boss') {
+                // В этих режимах обычно только один раунд, но можно добавить логику для дополнительных раундов
+                alert('Турнир завершен! Можно начать новый турнир.');
+                return;
+            }
+            
+            renderTournament();
+            updateStandings();
+            document.getElementById('nextRoundBtn').disabled = true;
+            saveTournamentState();
+        }
+
+        // Определение победителя в режиме "каждый с каждым"
+        function determineRoundRobinWinner() {
+            let maxPoints = -1;
+            let winners = [];
+            
+            // Находим игроков с максимальным количеством очков
+            for (const player in playerStats) {
+                if (playerStats[player].points > maxPoints) {
+                    maxPoints = playerStats[player].points;
+                    winners = [player];
+                } else if (playerStats[player].points === maxPoints) {
+                    winners.push(player);
+                }
+            }
+            
+            // Если несколько победителей, выбираем случайного
+            const champion = winners[Math.floor(Math.random() * winners.length)];
+            showChampion(champion);
+        }
+
+        // Показать победителя
+        function showChampion(winner) {
+            const container = document.getElementById('championContainer');
+            container.innerHTML = '';
+            
+            const championDiv = document.createElement('div');
+            championDiv.className = 'champion';
+            
+            championDiv.innerHTML = `
+                <h2>🏆 ПОБЕДИТЕЛЬ ТУРНИРА 🏆</h2>
+                <div class="winner-name">${winner}</div>
+                <div class="champion-stats">Побед: ${playerStats[winner].wins}</div>
+                <div class="champion-stats">Поражений: ${playerStats[winner].losses}</div>
+                <div class="champion-stats">Очков: ${playerStats[winner].points}</div>
+                ${playerStats[winner].bestTime ? `<div class="champion-stats">Лучшее время: ${convertSecondsToTime(playerStats[winner].bestTime)}</div>` : ''}
+            `;
+            
+            container.appendChild(championDiv);
+            document.getElementById('nextRoundBtn').disabled = true;
+            saveTournamentState();
+        }
+
+        // Обновление таблицы лидеров
+        function updateStandings() {
+            const standingsBody = document.getElementById('standingsBody');
+            standingsBody.innerHTML = '';
+            
+            // Создаем массив игроков для сортировки
+            const sortedPlayers = Object.keys(playerStats).sort((a, b) => {
+                // Сначала по очкам
+                if (playerStats[b].points !== playerStats[a].points) {
+                    return playerStats[b].points - playerStats[a].points;
+                }
+                
+                // Затем по победам
+                if (playerStats[b].wins !== playerStats[a].wins) {
+                    return playerStats[b].wins - playerStats[a].wins;
+                }
+                
+                // Для режима с таймером - по лучшему времени
+                if (selectedMode === 'timer' || selectedMode === 'boss') {
+                    if (playerStats[a].bestTime !== null && playerStats[b].bestTime !== null) {
+                        return playerStats[a].bestTime - playerStats[b].bestTime;
+                    } else if (playerStats[a].bestTime !== null) {
+                        return -1;
+                    } else if (playerStats[b].bestTime !== null) {
+                        return 1;
+                    }
+                }
+                
+                // Наконец, по алфавиту
+                return a.localeCompare(b);
+            });
+            
+            // Заполняем таблицу
+            sortedPlayers.forEach((player, index) => {
+                const row = document.createElement('tr');
+                
+                // Определяем класс для позиции
+                let positionClass = '';
+                if (index === 0) positionClass = 'position-1';
+                else if (index === 1) positionClass = 'position-2';
+                else if (index === 2) positionClass = 'position-3';
+                
+                row.className = positionClass;
+                
+                const stats = playerStats[player];
+                const bestTimeDisplay = stats.bestTime ? convertSecondsToTime(stats.bestTime) : '-';
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${player}</td>
+                    <td>${stats.wins}</td>
+                    <td>${stats.losses}</td>
+                    <td>${bestTimeDisplay}</td>
+                    <td>${stats.points}</td>
+                `;
+                
+                standingsBody.appendChild(row);
+            });
+            
+            saveTournamentState();
+        }
+
+        // Сброс турнира
+        function resetTournament() {
+            if (confirm('Вы уверены, что хотите начать новый турнир? Все текущие данные будут потеряны.')) {
+                // Очищаем localStorage
+                localStorage.removeItem('tournamentState');
+                
+                // Сбрасываем все переменные
+                players = [];
+                currentRound = 0;
+                tournamentData = [];
+                roundRobinMatches = [];
+                currentMatchIndex = 0;
+                playerStats = {};
+                selectedMode = '';
+                absentPlayers.clear();
+                playersWithoutOpponents.clear();
+                bossPlayer = '';
+                
+                // Сбрасываем интерфейс
+                document.getElementById('playersInput').value = '';
+                document.getElementById('bossInput').value = '';
+                document.getElementById('tournamentContainer').innerHTML = '';
+                document.getElementById('championContainer').innerHTML = '';
+                document.getElementById('standingsBody').innerHTML = '';
+                document.getElementById('standingsSection').style.display = 'none';
+                document.getElementById('tournamentControls').style.display = 'none';
+                document.getElementById('configPanel').style.display = 'none';
+                document.getElementById('modeSelector').style.display = 'block';
+                
+                // Сбрасываем активные кнопки режимов
+                document.querySelectorAll('.mode-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
