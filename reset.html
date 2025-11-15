@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" href="https://i.postimg.cc/LsmyN2Ty/target1v1.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сброс - Target 1v1 DBD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            color: #ffcc00;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .password-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .password-container {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #ffcc00;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .password-logo {
+            max-width: 150px;
+            margin: 0 auto 20px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .password-logo img {
+            width: 100%;
+            display: block;
+        }
+
+        .password-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #ffcc00;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            border: 2px solid #ffcc00;
+            color: #ffcc00;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .password-input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #ffcc00;
+        }
+
+        .password-error {
+            color: #ff3333;
+            margin-bottom: 15px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ffcc00;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
+            display: none;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin: 0 auto 30px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 100%;
+            display: block;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #ffcc00;
+        }
+
+        .status {
+            font-size: 18px;
+            margin: 25px 0;
+            padding: 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .status.success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .status.info {
+            background: rgba(255, 204, 0, 0.1);
+            border: 1px solid #ffcc00;
+            color: #ffcc00;
+        }
+
+        .status.error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+
+        .btn {
+            background: transparent;
+            color: #ffcc00;
+            border: 2px solid #ffcc00;
+            padding: 12px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: #ffcc00;
+            color: #000;
+            box-shadow: 0 0 15px #ffcc00;
+        }
+
+        .btn.reset {
+            border-color: #ff3333;
+            color: #ff3333;
+        }
+
+        .btn.reset:hover {
+            background: #ff3333;
+            color: #000;
+            box-shadow: 0 0 15px #ff3333;
+        }
+
+        .btn.back {
+            border-color: #00cc00;
+            color: #00cc00;
+        }
+
+        .btn.back:hover {
+            background: #00cc00;
+            color: #000;
+            box-shadow: 0 0 15px #00cc00;
+        }
+
+        .btn.password {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 204, 0, 0.05);
+            border: 1px solid #ffcc00;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            margin-bottom: 15px;
+            color: #ffcc00;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .instructions li:before {
+            content: "▶";
+            position: absolute;
+            left: -20px;
+            color: #ffcc00;
+        }
+
+        .device-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #cccccc;
+            opacity: 0.7;
+        }
+
+        .attempts-counter {
+            font-size: 12px;
+            color: #cccccc;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Экран ввода пароля -->
+    <div class="password-screen" id="passwordScreen">
+        <div class="password-container">
+            <div class="password-logo">
+                <img src="https://i.postimg.cc/LsmyN2Ty/target1v1.png" alt="Target 1v1 Logo">
+            </div>
+            
+            <h2 class="password-title">Доступ к сбросу регистрации</h2>
+            <p style="margin-bottom: 20px; color: #cccccc;">Введите пароль для продолжения</p>
+            
+            <input type="password" class="password-input" id="passwordInput" placeholder="Введите пароль" autocomplete="off">
+            <div class="password-error" id="passwordError"></div>
+            
+            <button class="btn password" onclick="checkPassword()">Продолжить</button>
+            <button class="btn back password" onclick="goToMainSite()">На главный сайт</button>
+            
+            <div class="attempts-counter" id="attemptsCounter">
+                Попыток: <span id="attemptsCount">0</span>/5
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной контент (скрыт до ввода пароля) -->
+    <div class="container" id="mainContent">
+        <div class="logo">
+            <img src="https://i.postimg.cc/LsmyN2Ty/target1v1.png" alt="Target 1v1 Logo">
+        </div>
+        
+        <h1>Сброс регистрации</h1>
+        
+        <div id="statusMessage" class="status">
+            Проверяем статус регистрации...
+        </div>
+
+        <div id="actionButtons" style="display: none;">
+            <button class="btn reset" onclick="resetRegistration()">Сбросить регистрацию</button>
+            <button class="btn back" onclick="goBack()">Вернуться на сайт</button>
+        </div>
+
+        <div class="device-info" id="deviceInfo"></div>
+    </div>
+
+    <script>
+        // Настройки пароля
+        const CORRECT_PASSWORD = "TARGET2024"; // Пароль для доступа
+        const MAX_ATTEMPTS = 5; // Максимальное количество попыток
+        const ATTEMPTS_KEY = 'reset_password_attempts';
+        const BLOCK_TIME_KEY = 'reset_password_blocked';
+
+        // Элементы DOM
+        const passwordScreen = document.getElementById('passwordScreen');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const passwordError = document.getElementById('passwordError');
+        const attemptsCounter = document.getElementById('attemptsCounter');
+        const attemptsCount = document.getElementById('attemptsCount');
+
+        // Функция для проверки блокировки
+        function checkBlockStatus() {
+            const blockedUntil = localStorage.getItem(BLOCK_TIME_KEY);
+            if (blockedUntil && Date.now() < parseInt(blockedUntil)) {
+                const remainingTime = Math.ceil((parseInt(blockedUntil) - Date.now()) / 1000 / 60);
+                passwordError.textContent = `Доступ заблокирован. Попробуйте через ${remainingTime} минут.`;
+                passwordInput.disabled = true;
+                document.querySelector('.btn.password').disabled = true;
+                return true;
+            } else if (blockedUntil) {
+                // Разблокируем если время вышло
+                localStorage.removeItem(BLOCK_TIME_KEY);
+                localStorage.removeItem(ATTEMPTS_KEY);
+            }
+            return false;
+        }
+
+        // Функция для обновления счетчика попыток
+        function updateAttemptsCounter() {
+            const attempts = parseInt(localStorage.getItem(ATTEMPTS_KEY) || '0');
+            attemptsCount.textContent = attempts;
+            
+            if (attempts >= MAX_ATTEMPTS - 2) {
+                attemptsCounter.style.color = '#ff3333';
+            } else if (attempts >= MAX_ATTEMPTS - 3) {
+                attemptsCounter.style.color = '#ffcc00';
+            } else {
+                attemptsCounter.style.color = '#cccccc';
+            }
+        }
+
+        // Функция проверки пароля
+        function checkPassword() {
+            if (checkBlockStatus()) return;
+
+            const inputPassword = passwordInput.value.trim();
+            let attempts = parseInt(localStorage.getItem(ATTEMPTS_KEY) || '0');
+
+            if (!inputPassword) {
+                passwordError.textContent = 'Введите пароль';
+                return;
+            }
+
+            if (inputPassword === CORRECT_PASSWORD) {
+                // Пароль верный
+                localStorage.removeItem(ATTEMPTS_KEY);
+                localStorage.removeItem(BLOCK_TIME_KEY);
+                
+                // Показываем основной контент
+                passwordScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // Запускаем проверку статуса регистрации
+                setTimeout(checkRegistrationStatus, 500);
+                
+            } else {
+                // Неверный пароль
+                attempts++;
+                localStorage.setItem(ATTEMPTS_KEY, attempts.toString());
+                
+                if (attempts >= MAX_ATTEMPTS) {
+                    // Блокируем доступ на 30 минут
+                    const blockTime = Date.now() + (30 * 60 * 1000);
+                    localStorage.setItem(BLOCK_TIME_KEY, blockTime.toString());
+                    passwordError.textContent = 'Слишком много неверных попыток. Доступ заблокирован на 30 минут.';
+                    passwordInput.disabled = true;
+                    document.querySelector('.btn.password').disabled = true;
+                } else {
+                    passwordError.textContent = `Неверный пароль. Осталось попыток: ${MAX_ATTEMPTS - attempts}`;
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+                
+                updateAttemptsCounter();
+            }
+        }
+
+        // Функция для перехода на главный сайт
+        function goToMainSite() {
+            window.location.href = 'https://mcpleh.github.io/DBD-Target1v1/';
+        }
+
+        // Обработчик нажатия Enter в поле пароля
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Функция для проверки статуса регистрации
+        function checkRegistrationStatus() {
+            const statusElement = document.getElementById('statusMessage');
+            const actionButtons = document.getElementById('actionButtons');
+            const deviceInfo = document.getElementById('deviceInfo');
+            
+            // Показываем информацию об устройстве
+            deviceInfo.innerHTML = `
+                Устройство: ${navigator.userAgent.includes('Mobile') ? 'Смартфон' : 'Компьютер'} | 
+                Время: ${new Date().toLocaleString('ru-RU')}
+            `;
+            
+            // Проверяем наличие регистрации
+            if (localStorage.getItem('dbd_tournament_registered')) {
+                statusElement.innerHTML = `
+                    <strong>✅ Регистрация найдена!</strong><br>
+                    На этом устройстве есть активная регистрация.
+                `;
+                statusElement.className = 'status success';
+                actionButtons.style.display = 'block';
+            } else {
+                statusElement.innerHTML = `
+                    <strong>ℹ️ Регистрация не найдена</strong><br>
+                    На этом устройстве нет активной регистрации.
+                `;
+                statusElement.className = 'status info';
+                actionButtons.style.display = 'block';
+            }
+        }
+
+        // Функция сброса регистрации
+        function resetRegistration() {
+            const statusElement = document.getElementById('statusMessage');
+            const actionButtons = document.getElementById('actionButtons');
+            
+            if (localStorage.getItem('dbd_tournament_registered')) {
+                // Удаляем регистрацию
+                localStorage.removeItem('dbd_tournament_registered');
+                
+                statusElement.innerHTML = `
+                    <strong>🎉 Регистрация успешно сброшена!</strong><br>
+                    Теперь вы можете зарегистрироваться заново на основном сайте.
+                `;
+                statusElement.className = 'status success';
+                
+                // Обновляем кнопки
+                actionButtons.innerHTML = `
+                    <button class="btn back" onclick="goToTournament()">Перейти к регистрации</button>
+                    <button class="btn" onclick="checkRegistrationStatus()">Проверить статус</button>
+                `;
+                
+                // Сохраняем в историю сбросов
+                const resetHistory = JSON.parse(localStorage.getItem('dbd_reset_history') || '[]');
+                resetHistory.push({
+                    timestamp: new Date().toISOString(),
+                    action: 'manual_reset'
+                });
+                localStorage.setItem('dbd_reset_history', JSON.stringify(resetHistory));
+                
+            } else {
+                statusElement.innerHTML = `
+                    <strong>⚠️ Регистрация не найдена</strong><br>
+                    Нечего сбрасывать - регистрация уже отсутствует.
+                `;
+                statusElement.className = 'status info';
+            }
+        }
+
+        // Функция для перехода на сайт турнира
+        function goToTournament() {
+            window.location.href = 'https://mcpleh.github.io/DBD-Target1v1/';
+        }
+
+        // Функция для возврата назад
+        function goBack() {
+            if (document.referrer && document.referrer.includes('DBD-Target1v1')) {
+                window.history.back();
+            } else {
+                goToTournament();
+            }
+        }
+
+        // Функция для полной очистки (административная)
+        function fullReset() {
+            if (confirm('Вы уверены, что хотите полностью очистить ВСЕ данные турнира?')) {
+                localStorage.removeItem('dbd_tournament_registered');
+                localStorage.removeItem('dbd_registration_timestamp');
+                localStorage.removeItem('dbd_reset_history');
+                
+                const statusElement = document.getElementById('statusMessage');
+                statusElement.innerHTML = `
+                    <strong>🧹 Все данные очищены!</strong><br>
+                    Все данные турнира были полностью удалены.
+                `;
+                statusElement.className = 'status success';
+                
+                setTimeout(() => {
+                    checkRegistrationStatus();
+                }, 2000);
+            }
+        }
+
+        // Показываем расширенные опции при двойном клике на заголовок
+        document.querySelector('h1').addEventListener('dblclick', function() {
+            const actionButtons = document.getElementById('actionButtons');
+            if (!actionButtons.innerHTML.includes('fullReset')) {
+                actionButtons.innerHTML += '<br><button class="btn reset" onclick="fullReset()" style="margin-top: 10px; font-size: 12px;">Полная очистка (админ)</button>';
+            }
+        });
+
+        // Добавляем обработчик клавиш для быстрого доступа
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + R для сброса
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                resetRegistration();
+            }
+            // Ctrl + B для возврата
+            if (e.ctrlKey && e.key === 'b') {
+                e.preventDefault();
+                goBack();
+            }
+        });
+
+        // Блокировка контекстного меню и инструментов разработчика
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123 || // F12
+                (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) // Ctrl+Shift+I/J/C
+            ) {
+                e.preventDefault();
+            }
+        });
+
+        // Инициализация при загрузке
+        window.addEventListener('load', function() {
+            // Проверяем блокировку и обновляем счетчик
+            checkBlockStatus();
+            updateAttemptsCounter();
+            
+            // Фокусируемся на поле пароля
+            passwordInput.focus();
+            
+            // Информация в консоль
+            console.log('🎮 Target 1v1 - Страница сброса регистрации');
+            console.log('🔐 Защищено паролем');
+        });
+
+        // Информация о сочетаниях клавиш
+        console.log(`
+🎮 Target 1v1 - Сочетания клавиш:
+• Enter - Подтвердить пароль
+• Ctrl + R - Сбросить регистрацию (после входа)
+• Ctrl + B - Вернуться назад (после входа)
+• Двойной клик по заголовку - Расширенные опции
+        `);
+    </script>
+</body>
+</html>
