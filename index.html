@@ -4,22 +4,22 @@
     <link rel="icon" href="https://i.postimg.cc/hj2L0k2Q/target1v1.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Target 1v1 "Царь горы" DBD</title>
+    <title>PHG Tour | DBD</title>
     
     <!-- Open Graph метатеги для корректного отображения в соцсетях -->
-    <meta property="og:title" content="PHGTour - Dead by Daylight">
+    <meta property="og:title" content="Tour & Event - Dead by Daylight">
     <meta property="og:description" content="PHG | DBD Creator">
     <meta property="og:image" content="https://i.postimg.cc/hj2L0k2Q/target1v1.png">
-    <meta property="og:url" content="https://mcpleh.github.io/DBD-Target1v1/">
+    <meta property="og:url" content="https://mcpleh.github.io/PHGTournamentDBD/">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="PHGTour">
+    <meta property="og:site_name" content="Dead by PHGTour">
     
     <!-- Дополнительные метатеги для ВКонтакте -->
     <meta property="vk:image" content="https://i.postimg.cc/hj2L0k2Q/target1v1.png">
     
     <!-- Дополнительные метатеги для Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PHGTour - Dead by Daylight">
+    <meta name="twitter:title" content="Tour & Event - Dead by Daylight">
     <meta name="twitter:description" content="PHG | DBD Creator">
     <meta name="twitter:image" content="https://i.postimg.cc/hj2L0k2Q/target1v1.png">
     
@@ -178,7 +178,6 @@
             50% { transform: scale(1.2); opacity: 1; }
         }
 
-        /* Остальные стили остаются без изменений */
         /* Основной контент */
         .container {
             max-width: 1200px;
@@ -365,9 +364,24 @@
             left: 100%;
         }
 
+        .menu-btn.registered {
+            background: linear-gradient(135deg, #0a1a00, #1a3300);
+            border-color: #00ff00;
+            color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .menu-btn.registered:hover {
+            background: linear-gradient(135deg, #1a3300, #2a4d00);
+            color: #66ff66;
+            box-shadow: 0 0 20px #00ff00;
+            text-shadow: 0 0 10px #66ff66;
+        }
+
         /* Остальные стили остаются без изменений */
         /* Страница участников */
-        .participants-page, .registration-page, .info-page, .rules-page {
+        .participants-page, .registration-page, .info-page, .rules-page, .bracket-page, .balance-page {
             padding-top: 20px;
         }
 
@@ -624,6 +638,117 @@
             box-shadow: 0 0 5px rgba(255, 0, 60, 0.3);
         }
 
+        /* Турнирная сетка */
+        .bracket-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(26, 0, 16, 0.7), rgba(51, 0, 26, 0.7));
+            border: 1px solid #ff003c;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.5);
+            overflow-x: auto;
+        }
+
+        .bracket {
+            display: flex;
+            justify-content: space-between;
+            min-width: 900px;
+        }
+
+        .bracket-round {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .bracket-match {
+            background: linear-gradient(135deg, rgba(255, 0, 60, 0.1), rgba(255, 0, 60, 0.05));
+            border: 1px solid #ff003c;
+            padding: 10px;
+            margin: 10px 0;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .bracket-player {
+            padding: 5px;
+            margin: 2px 0;
+            background: rgba(26, 0, 16, 0.7);
+            border: 1px solid #ff003c;
+            cursor: pointer;
+        }
+
+        .bracket-player.winner {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: #00ff00;
+        }
+
+        .bracket-connector {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .bracket-connector::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            width: 10px;
+            height: 2px;
+            background: #ff003c;
+        }
+
+        .bracket-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            width: 2px;
+            height: 100%;
+            background: #ff003c;
+        }
+
+        /* Баланс и запреты */
+        .balance-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(26, 0, 16, 0.7), rgba(51, 0, 26, 0.7));
+            border: 1px solid #ff003c;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.5);
+        }
+
+        .ban-section {
+            margin-bottom: 30px;
+        }
+
+        .ban-section h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #ff003c;
+            border-bottom: 1px solid #ff003c;
+            padding-bottom: 5px;
+            text-shadow: 0 0 5px #ff003c;
+        }
+
+        .ban-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .ban-item {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.05));
+            border: 1px solid #ff0000;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+        }
+
         /* Футер */
         footer {
             text-align: center;
@@ -852,8 +977,24 @@
     border: 1px solid #ff003c;
 }
 
+.hidden-button2 {
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 10px;
+    left: 110px; /* 60px + 40px + 10px отступа */
+    cursor: pointer;
+    z-index: 1000;
+    background: rgba(255, 0, 60, 0.2);
+    color: #ff003c;
+    border: 1px solid #ff003c;
+}
+
 .hidden-button:hover,
-.hidden-button1:hover {
+.hidden-button1:hover,
+.hidden-button2:hover {
     background-color: #ff003c;
     color: #000;
 }
@@ -1015,6 +1156,105 @@
     color: #000;
     box-shadow: 0 0 10px #00ff00;
 }
+
+/* Модальное окно для разработчиков */
+.developers-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.developers-content {
+    background: linear-gradient(135deg, #1a0010, #33001a);
+    border: 2px solid #ff003c;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 30px #ff003c;
+}
+
+.developers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.developer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: rgba(255, 0, 60, 0.1);
+    border: 1px solid #ff003c;
+}
+
+.developer-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.developer-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ff003c;
+}
+
+.developer-name {
+    font-size: 18px;
+    color: #ff003c;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.developer-name:hover {
+    color: #ff3366;
+    text-shadow: 0 0 10px #ff003c;
+}
+
+.developer-role {
+    font-size: 14px;
+    color: #ff6699;
+}
+
+.developer-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.developer-btn {
+    background: linear-gradient(135deg, #1a0010, #33001a);
+    color: #ff003c;
+    border: 2px solid #ff003c;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 150px;
+    box-shadow: 0 0 10px rgba(255, 0, 60, 0.5);
+    text-shadow: 0 0 5px #ff003c;
+}
+
+.developer-btn:hover {
+    background: linear-gradient(135deg, #33001a, #4d0026);
+    color: #ff3366;
+    box-shadow: 0 0 15px #ff003c;
+    text-shadow: 0 0 10px #ff3366;
+}
     </style>
 </head>
 <body>
@@ -1079,6 +1319,63 @@
         </div>
     </div>
 
+    <!-- Модальное окно для разработчиков -->
+    <div class="developers-modal hidden" id="developersModal">
+        <div class="developers-content">
+            <h2 class="modal-title">КОМАНДА РАЗРАБОТКИ</h2>
+            <p class="modal-text">Люди, которые помогали в создании и развитии сайта:</p>
+            <div class="developers-list">
+                <div class="developer-item">
+                    <div class="developer-info">
+                        <a href="https://www.twitch.tv/mcpleh" target="_blank">
+                            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/b7a31939-32c0-404d-8b5a-3bea0be49c98-profile_image-70x70.png" alt="1" class="developer-avatar">
+                        </a>
+                        <div>
+                            <a href="https://www.twitch.tv/mcpleh" class="developer-name" target="_blank">MCPLEH</a>
+                            <div class="developer-role">Главный разработчик</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="developer-item">
+                    <div class="developer-info">
+                        <a href="#" target="_blank">
+                            <img src="2" alt="2" class="developer-avatar">
+                        </a>
+                        <div>
+                            <a href="#" class="developer-name" target="_blank">1</a>
+                            <div class="developer-role">Дизайнер и художник</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="developer-item">
+                    <div class="developer-info">
+                        <a href="#" target="_blank">
+                            <img src="3" alt="3" class="developer-avatar">
+                        </a>
+                        <div>
+                            <a href="#" class="developer-name" target="_blank">2</a>
+                            <div class="developer-role">Тестировщик & креатор идей</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="developer-item">
+                    <div class="developer-info">
+                        <a href="https://www.twitch.tv/c0nquerrr0r" target="_blank">
+                            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/5216949e-97af-4716-8d53-bf5fbce2d604-profile_image-70x70.png" alt="4" class="developer-avatar">
+                        </a>
+                        <div>
+                            <a href="https://www.twitch.tv/c0nquerrr0r" class="developer-name" target="_blank">c0nquerrr0r</a>
+                            <div class="developer-role">Спонсор турниров</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="developer-buttons">
+                <button class="developer-btn" id="closeDevelopers">ЗАКРЫТЬ</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Главная страница -->
     <div class="container main-page" id="mainPage">
         <div>
@@ -1110,8 +1407,8 @@
         <div class="menu-buttons">
             <button class="menu-btn pulse-element" id="participantsBtn">Участники</button>
             <button class="menu-btn pulse-element" id="registrationBtn">Регистрация</button>
-            <button class="menu-btn pulse-element" id="infoBtn1">Сетка</button>
-            <button class="menu-btn pulse-element" id="infoBtn2">Баланс</button>
+            <button class="menu-btn pulse-element" id="bracketBtn">Сетка</button>
+            <button class="menu-btn pulse-element" id="balanceBtn">Баланс</button>
             <button class="menu-btn pulse-element" id="infoBtn">Информация о турнирах</button>
             <button class="menu-btn pulse-element" id="rulesBtn">Правила</button>
         </div>
@@ -1316,6 +1613,120 @@
         </div>
     </div>
 
+    <!-- Турнирная сетка -->
+    <div class="container bracket-page hidden" id="bracketPage">
+        <button class="back-btn" id="backFromBracket">Назад</button>
+        <h2 class="page-title" id="bracketTitle">Турнирная сетка</h2>
+        <div class="bracket-content">
+            <div class="bracket">
+                <!-- Четвертьфиналы -->
+                <div class="bracket-round">
+                    <h3>Четвертьфиналы</h3>
+                    <div class="bracket-match">
+                        <div class="bracket-player">Игрок 1</div>
+                        <div class="bracket-player">Игрок 2</div>
+                    </div>
+                    <div class="bracket-match">
+                        <div class="bracket-player">Игрок 3</div>
+                        <div class="bracket-player">Игрок 4</div>
+                    </div>
+                    <div class="bracket-match">
+                        <div class="bracket-player">Игрок 5</div>
+                        <div class="bracket-player">Игрок 6</div>
+                    </div>
+                    <div class="bracket-match">
+                        <div class="bracket-player">Игрок 7</div>
+                        <div class="bracket-player">Игрок 8</div>
+                    </div>
+                </div>
+                
+                <!-- Полуфиналы -->
+                <div class="bracket-round">
+                    <h3>Полуфиналы</h3>
+                    <div class="bracket-connector">
+                        <div class="bracket-match">
+                            <div class="bracket-player">Победитель 1/2</div>
+                            <div class="bracket-player">Победитель 3/4</div>
+                        </div>
+                    </div>
+                    <div class="bracket-connector">
+                        <div class="bracket-match">
+                            <div class="bracket-player">Победитель 5/6</div>
+                            <div class="bracket-player">Победитель 7/8</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Финал -->
+                <div class="bracket-round">
+                    <h3>Финал</h3>
+                    <div class="bracket-connector">
+                        <div class="bracket-match">
+                            <div class="bracket-player">Победитель SF1</div>
+                            <div class="bracket-player">Победитель SF2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Баланс и запреты -->
+    <div class="container balance-page hidden" id="balancePage">
+        <button class="back-btn" id="backFromBalance">Назад</button>
+        <h2 class="page-title" id="balanceTitle">Баланс и запреты</h2>
+        <div class="balance-content">
+            <div class="ban-section">
+                <h3>Запрещенные перки выжившего</h3>
+                <div class="ban-list">
+                    <div class="ban-item">Адреналин</div>
+                    <div class="ban-item">Без сожаления</div>
+                    <div class="ban-item">Второе дыхание</div>
+                    <div class="ban-item">Дух возмездия</div>
+                    <div class="ban-item">Крутой поворот</div>
+                    <div class="ban-item">Мгновенная реакция</div>
+                    <div class="ban-item">Меткий побег</div>
+                    <div class="ban-item">Отчаянные меры</div>
+                </div>
+            </div>
+            
+            <div class="ban-section">
+                <h3>Запрещенные перки убийцы</h3>
+                <div class="ban-list">
+                    <div class="ban-item">Враг народа</div>
+                    <div class="ban-item">Грозный рык</div>
+                    <div class="ban-item">Запомни меня</div>
+                    <div class="ban-item">Игра в наперстки</div>
+                    <div class="ban-item">Кровавый батут</div>
+                    <div class="ban-item">Нокаутирующий удар</div>
+                    <div class="ban-item">Охотничья муза</div>
+                    <div class="ban-item">Смертельная ловушка</div>
+                </div>
+            </div>
+            
+            <div class="ban-section">
+                <h3>Запрещенные предметы</h3>
+                <div class="ban-list">
+                    <div class="ban-item">Ключ с кольцом</div>
+                    <div class="ban-item">Аптечка с присадками</div>
+                    <div class="ban-item">Фонарь с УФ-лампой</div>
+                    <div class="ban-item">Инструментарий с прочными тросами</div>
+                </div>
+            </div>
+            
+            <div class="ban-section">
+                <h3>Запрещенные аддоны</h3>
+                <div class="ban-list">
+                    <div class="ban-item">Радужные аддоны</div>
+                    <div class="ban-item">Иридиевые ленты (Охотник)</div>
+                    <div class="ban-item">Блок двигателя (Деревенщина)</div>
+                    <div class="ban-item">Палий пепел (Демогоргон)</div>
+                    <div class="ban-item">Алхимическое кольцо (Мор)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <!-- Скрытая кнопка в левом нижнем углу -->
     <button class="hidden-button" id="secretButton" title="Секретная кнопка">
         <i class="fas fa-lock"></i>
@@ -1326,12 +1737,17 @@
         <i class="fas fa-random"></i>
     </button>
 
+    <!-- Новая кнопка для разработчиков -->
+    <button class="hidden-button2" id="developersButton" title="Разработчики">
+        <i class="fas fa-code"></i>
+    </button>
+
     <!-- Футер -->
     <br>
     <br>
     <br>
     <footer>
-        <p>Сайт создан при поддержке by PHG community</p>
+        <p>Сайт создан by PHG community</p>
     </footer>
 
     <script>
@@ -1380,23 +1796,31 @@
         const registrationPage = document.getElementById('registrationPage');
         const infoPage = document.getElementById('infoPage');
         const rulesPage = document.getElementById('rulesPage');
+        const bracketPage = document.getElementById('bracketPage');
+        const balancePage = document.getElementById('balancePage');
         const notification = document.getElementById('notification');
         const tournamentTitle = document.getElementById('tournamentTitle');
         const alreadyRegisteredModal = document.getElementById('alreadyRegisteredModal');
         const passwordModal = document.getElementById('passwordModal');
         const cacheModal = document.getElementById('cacheModal');
+        const developersModal = document.getElementById('developersModal');
         
         const startBtn = document.getElementById('startBtn');
         const participantsBtn = document.getElementById('participantsBtn');
         const registrationBtn = document.getElementById('registrationBtn');
+        const bracketBtn = document.getElementById('bracketBtn');
+        const balanceBtn = document.getElementById('balanceBtn');
         const infoBtn = document.getElementById('infoBtn');
         const rulesBtn = document.getElementById('rulesBtn');
         const secretButton = document.getElementById('secretButton');
+        const developersButton = document.getElementById('developersButton');
         
         const backFromParticipants = document.getElementById('backFromParticipants');
         const backFromRegistration = document.getElementById('backFromRegistration');
         const backFromInfo = document.getElementById('backFromInfo');
         const backFromRules = document.getElementById('backFromRules');
+        const backFromBracket = document.getElementById('backFromBracket');
+        const backFromBalance = document.getElementById('backFromBalance');
         
         const participantsList = document.getElementById('participantsList');
         const participantCard = document.getElementById('participantCard');
@@ -1412,6 +1836,8 @@
         
         const confirmReset = document.getElementById('confirmReset');
         const cancelReset = document.getElementById('cancelReset');
+        
+        const closeDevelopers = document.getElementById('closeDevelopers');
         
         // Настройки Telegram бота
         const TELEGRAM_BOT_TOKEN = '7648746510:AAECKk-hOAIMd1_eQZItO8X69lQgKNl6Eoo';
@@ -1445,13 +1871,25 @@
                 "РЕГЛАМЕНТ СОРЕВНОВАНИЯ",
                 "УСЛОВИЯ УЧАСТИЯ",
                 "ПРАВИЛА ИГРЫ"
+            ],
+            bracket: [
+                "ТУРНИРНАЯ СЕТКА",
+                "СЕТКА СОРЕВНОВАНИЯ",
+                "БРЕКЕТ ТУРНИРА",
+                "РАСПИСАНИЕ МАТЧЕЙ"
+            ],
+            balance: [
+                "БАЛАНС И ЗАПРЕТЫ",
+                "ЗАПРЕЩЕННЫЕ ПЕРКИ И ПРЕДМЕТЫ",
+                "ОГРАНИЧЕНИЯ ТУРНИРА",
+                "БАЛАНС ИГРЫ"
             ]
         };
 
         // Функции навигации
         function showPage(page) {
             // Скрыть все страницы
-            const pages = [mainPage, menuPage, participantsPage, registrationPage, infoPage, rulesPage];
+            const pages = [mainPage, menuPage, participantsPage, registrationPage, infoPage, rulesPage, bracketPage, balancePage];
             pages.forEach(p => p.classList.add('hidden'));
             
             // Показать нужную страницу
@@ -1474,6 +1912,21 @@
             if (page === registrationPage) {
                 checkIfAlreadyRegistered();
             }
+            
+            // Обновляем текст кнопки регистрации в меню
+            updateRegistrationButton();
+        }
+        
+        // Обновление текста кнопки регистрации
+        function updateRegistrationButton() {
+            const isRegistered = localStorage.getItem(REGISTRATION_KEY) === 'true';
+            if (isRegistered) {
+                registrationBtn.textContent = 'УЖЕ ЗАРЕГИСТРИРОВАН';
+                registrationBtn.classList.add('registered');
+            } else {
+                registrationBtn.textContent = 'Регистрация';
+                registrationBtn.classList.remove('registered');
+            }
         }
         
         // Установка случайного заголовка для страницы
@@ -1492,6 +1945,12 @@
             } else if (page === rulesPage) {
                 titleElement = document.getElementById('rulesTitle');
                 titles = pageTitles.rules;
+            } else if (page === bracketPage) {
+                titleElement = document.getElementById('bracketTitle');
+                titles = pageTitles.bracket;
+            } else if (page === balancePage) {
+                titleElement = document.getElementById('balanceTitle');
+                titles = pageTitles.balance;
             } else {
                 return;
             }
@@ -1541,11 +2000,22 @@
             cacheModal.classList.add('hidden');
         }
         
+        // Показать модальное окно для разработчиков
+        function showDevelopersModal() {
+            developersModal.classList.remove('hidden');
+        }
+        
+        // Скрыть модальное окно для разработчиков
+        function hideDevelopersModal() {
+            developersModal.classList.add('hidden');
+        }
+        
         // Сброс кеша регистрации
         function resetRegistrationCache() {
             localStorage.removeItem(REGISTRATION_KEY);
             showNotification('Кеш регистрации успешно сброшен!', true);
             hideCacheModal();
+            updateRegistrationButton();
         }
         
         // Проверка пароля
@@ -1712,6 +2182,14 @@
             showLoadingTransition(() => showPage(registrationPage));
         });
         
+        bracketBtn.addEventListener('click', () => {
+            showLoadingTransition(() => showPage(bracketPage));
+        });
+        
+        balanceBtn.addEventListener('click', () => {
+            showLoadingTransition(() => showPage(balancePage));
+        });
+        
         infoBtn.addEventListener('click', () => {
             showLoadingTransition(() => showPage(infoPage));
         });
@@ -1736,6 +2214,14 @@
             showLoadingTransition(() => showPage(menuPage));
         });
         
+        backFromBracket.addEventListener('click', () => {
+            showLoadingTransition(() => showPage(menuPage));
+        });
+        
+        backFromBalance.addEventListener('click', () => {
+            showLoadingTransition(() => showPage(menuPage));
+        });
+        
         closeCard.addEventListener('click', () => {
             participantCard.style.display = 'none';
         });
@@ -1743,7 +2229,7 @@
         // Обработчики для модального окна
         contactAdminBtn.addEventListener('click', () => {
             // Переход по ссылке на администратора (можно изменить на нужную ссылку)
-            window.open('https://t.me/TARGET1v1', '_blank');
+            window.open('https://t.me/dbdphgnews?direct', '_blank');
         });
         
         backToMenuBtn.addEventListener('click', () => {
@@ -1782,6 +2268,15 @@
         
         cancelReset.addEventListener('click', () => {
             hideCacheModal();
+        });
+        
+        // Обработчики для кнопки разработчиков
+        developersButton.addEventListener('click', () => {
+            showDevelopersModal();
+        });
+        
+        closeDevelopers.addEventListener('click', () => {
+            hideDevelopersModal();
         });
         
         // ДОБАВЛЯЕМ ОБРАБОТЧИК ДЛЯ ОБНОВЛЕНИЯ СТРАНИЦЫ
@@ -1867,6 +2362,9 @@
                 document.getElementById('twitch').value = '';
                 document.getElementById('steam').value = '';
                 
+                // Обновляем кнопку регистрации
+                updateRegistrationButton();
+                
                 // Возврат в меню через 2 секунды
                 setTimeout(() => {
                     showLoadingTransition(() => showPage(menuPage));
@@ -1880,6 +2378,9 @@
         window.addEventListener('load', async () => {
             // Загружаем локальные данные
             loadTournamentInfo();
+            
+            // Обновляем кнопку регистрации
+            updateRegistrationButton();
             
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
